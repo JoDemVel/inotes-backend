@@ -8,10 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class NoteDTO {
+public class TagDTO {
     private Long id;
-    private String title;
-    private String content;
+    private String name;
     private Long userId;
-    private boolean isArchived;
 }

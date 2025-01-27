@@ -1,5 +1,6 @@
 package com.app.dharbor.inotes.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,13 +19,13 @@ public class TagEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(nullable = false, length = 255)
     private String name;
 
     @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     private Set<NoteEntity> notes = new HashSet<>();
 }

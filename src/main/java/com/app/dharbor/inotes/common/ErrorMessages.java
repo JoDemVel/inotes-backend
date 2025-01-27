@@ -15,5 +15,7 @@ public final class ErrorMessages {
     public static final String USER_IS_BLOCKED = "User with email '%s' is Blocked";
     public static final String ROLE_NOT_EXIST = "The Role(s) specified Not Exist";
     public static final String NOTE_NOT_FOUND = "Note with ID: '%s' Not Found";
+    public static final String TAGS_NOT_FOUND = "Some tags not found for the provided IDs";
+    public static final String TAG_NOT_EXIST = "Tag with ID: '%s' does not exist";
 
 }

@@ -7,6 +7,7 @@ import com.app.dharbor.inotes.security.CustomAccessDeniedHandler;
 import com.app.dharbor.inotes.security.CustomAuthenticationEntryPoint;
 import com.app.dharbor.inotes.service.implement.UserDetailsServiceImpl;
 import com.app.dharbor.inotes.utils.JwtUtils;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +38,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
                                                    CustomAuthenticationEntryPoint authenticationEntryPoint,
-                                                   CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
+                                                   CustomAccessDeniedHandler accessDeniedHandler, HttpSession httpSession) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
@@ -55,6 +57,17 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.DELETE, Path.NOTE_ID).hasAnyRole(
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());
                     http.requestMatchers(HttpMethod.PATCH, Path.NOTE_ID).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.PATCH, Path.NOTE_ID_TAGS).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.PATCH, Path.NOTE_ID_TAGS_ID).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+
+                    http.requestMatchers(HttpMethod.GET, Path.TAG).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.POST, Path.TAG).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.DELETE, Path.TAG_ID).hasAnyRole(
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());
 
                     http.anyRequest().denyAll();

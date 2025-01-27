@@ -2,6 +2,8 @@ package com.app.dharbor.inotes.web.rest;
 
 import com.app.dharbor.inotes.common.Path;
 import com.app.dharbor.inotes.dto.NoteDTO;
+import com.app.dharbor.inotes.dto.NoteTagsRequest;
+import com.app.dharbor.inotes.dto.NoteWithTagsDTO;
 import com.app.dharbor.inotes.service.implement.NoteServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,7 @@ public class NoteController {
 
     @GetMapping(Path.NOTE)
     public ResponseEntity<List<NoteDTO>> getAllNotes(@RequestParam(value = "archived", required = false) Boolean archived) {
-        return new ResponseEntity<>(this.noteService.listNotes(archived), HttpStatus.OK);
+        return new ResponseEntity<>(this.noteService.listNotesByUserAuth(archived), HttpStatus.OK);
     }
 
     @PostMapping(Path.NOTE)
@@ -47,5 +49,21 @@ public class NoteController {
     @PatchMapping(Path.NOTE_ID)
     public ResponseEntity<NoteDTO> toggleArchiveNote(@PathVariable Long id){
         return new ResponseEntity<>(this.noteService.archiveNote(id), HttpStatus.OK);
+    }
+
+    @PatchMapping(Path.NOTE_ID_TAGS)
+    public ResponseEntity<NoteWithTagsDTO> saveTagsOnNote(
+            @PathVariable Long id,
+            @RequestBody @Valid NoteTagsRequest tags) {
+        NoteWithTagsDTO updatedNote = noteService.saveTagsOnNote(id, tags.tags());
+        return ResponseEntity.ok(updatedNote);
+    }
+
+    @PatchMapping(Path.NOTE_ID_TAGS_ID)
+    public ResponseEntity<NoteWithTagsDTO> saveTagOnNote(
+            @PathVariable Long id,
+            @PathVariable Long tagId) {
+        NoteWithTagsDTO updatedNote = noteService.saveTagOnNote(id, tagId);
+        return ResponseEntity.ok(updatedNote);
     }
 }
