@@ -34,6 +34,12 @@ public class TagServiceImpl implements TagService {
         return tagMapper.toDTO(savedTag);
     }
 
+    /**
+     * Finds all tags associated with a specific user.
+     *
+     * @param userId The ID of the user whose tags are being retrieved.
+     * @return A list of TagDTO objects representing the user's tags.
+     */
     @Override
     public List<TagDTO> findAllByUserId(Long userId) {
         List<TagEntity> tags = tagRepository.findAllByUserId(userId);
@@ -42,6 +48,11 @@ public class TagServiceImpl implements TagService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Finds all tags associated with the authenticated user.
+     *
+     * @return A list of TagDTO objects representing the authenticated user's tags.
+     */
     @Override
     public List<TagDTO> findAllByUserAuth() {
         Long userId = userInfo.getAuthenticatedUser().getId();

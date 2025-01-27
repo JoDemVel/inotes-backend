@@ -42,6 +42,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private AuthSignUpMapper authSignUpMapper;
 
+    /**
+     * Loads user details by username (email) for authentication.
+     *
+     * @param username The email of the user to load.
+     * @return UserDetails object containing user information and authorities.
+     * @throws UsernameNotFoundException if the user with the given email is not found.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(username)
@@ -67,6 +74,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         );
     }
 
+    /**
+     * Authenticates a user and generates a JWT token.
+     *
+     * @param authLoginRequest The login request containing email and password.
+     * @return AuthResponse object containing JWT token and user details.
+     */
     public AuthResponse loginUser(AuthLoginRequest authLoginRequest) {
         Authentication authentication = this.authenticate(
                 authLoginRequest.getEmail(), authLoginRequest.getPassword()
@@ -83,6 +96,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .build();
     }
 
+    /**
+     * Creates a new user account and assigns roles.
+     *
+     * @param authSignUpRequest The signup request containing user details and roles.
+     * @return AuthResponse object containing JWT token and user details.
+     * @throws EmailAlreadyExistsException if the email already exists in the system.
+     */
     public AuthResponse createUser(AuthSignUpRequest authSignUpRequest) {
         validateRoles(authSignUpRequest.getRoles());
 
@@ -110,6 +130,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .build();
     }
 
+    /**
+     * Creates an authentication object for a user.
+     *
+     * @param userEntity The user entity to create authentication for.
+     * @return Authentication object containing user's authorities.
+     */
     private Authentication createAuthentication(UserEntity userEntity) {
         List<SimpleGrantedAuthority> authorities = userEntity.getRoles().stream()
                 .flatMap(role -> role.getPermissions().stream()
@@ -132,6 +158,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
+    /**
+     * Authenticates a user by verifying email and password.
+     *
+     * @param email    The email of the user to authenticate.
+     * @param password The password to verify.
+     * @return Authentication object containing user's details and authorities.
+     * @throws UsernameNotFoundException if the user is not found.
+     * @throws DisabledException if the user's account is disabled.
+     * @throws LockedException if the user's account is locked.
+     * @throws BadCredentialsException if the password is incorrect.
+     */
     public Authentication authenticate(String email, String password) {
         UserDetails userDetails = loadUserByUsername(email);
 

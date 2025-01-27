@@ -36,6 +36,13 @@ public class NoteServiceImpl implements NoteService {
         this.userInfo = userInfo;
     }
 
+    /**
+     * Retrieves a list of notes for a specific user, optionally filtering by archived status.
+     *
+     * @param userID   The ID of the user whose notes are being retrieved.
+     * @param archived Whether to filter notes by archived status (true, false, or null for all).
+     * @return A list of NoteDTO objects representing the user's notes.
+     */
     @Override
     public List<NoteDTO> listNotesByUserId(Long userID, Boolean archived) {
         List<NoteEntity> notes = (archived == null)
@@ -44,6 +51,12 @@ public class NoteServiceImpl implements NoteService {
         return notes.stream().map(noteMapper::toDTO).toList();
     }
 
+    /**
+     * Retrieves a list of notes for the authenticated user, optionally filtering by archived status.
+     *
+     * @param archived Whether to filter notes by archived status (true, false, or null for all).
+     * @return A list of NoteDTO objects representing the authenticated user's notes.
+     */
     @Override
     public List<NoteDTO> listNotesByUserAuth(Boolean archived) {
         Long userId = userInfo.getAuthenticatedUser().getId();
@@ -124,6 +137,14 @@ public class NoteServiceImpl implements NoteService {
         return noteWithTagsMapper.toDTO(updatedNote);
     }
 
+    /**
+     * Searches for notes based on title, content, or associated tag name.
+     *
+     * @param title   The title to filter notes by (optional).
+     * @param content The content to filter notes by (optional).
+     * @param tagName The tag name to filter notes by (optional).
+     * @return A list of NoteDTO objects matching the search criteria.
+     */
     @Override
     public List<NoteDTO> searchNotes(String title, String content, String tagName) {
         Long userId = userInfo.getAuthenticatedUser().getId();
@@ -141,6 +162,13 @@ public class NoteServiceImpl implements NoteService {
         );
     }
 
+    /**
+     * Updates a field of an entity if the new value is not null.
+     *
+     * @param newValue The new value to set.
+     * @param setter   The setter function to update the field.
+     * @param <T>      The type of the field to update.
+     */
     private <T> void updateFieldIfNotNull(T newValue, Consumer<T> setter) {
         if (newValue != null) {
             setter.accept(newValue);
