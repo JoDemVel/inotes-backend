@@ -1,6 +1,5 @@
 package com.app.dharbor.inotes.dto;
 
-import com.app.dharbor.inotes.domain.entity.UserEntity;
 import lombok.*;
 
 @Setter

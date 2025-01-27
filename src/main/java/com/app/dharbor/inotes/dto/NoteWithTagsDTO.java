@@ -10,7 +10,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @ToString
-public class NoteWithTags {
+public class NoteWithTagsDTO {
     private Long id;
     private Long userId;
     private String title;
