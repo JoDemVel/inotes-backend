@@ -62,6 +62,8 @@ public class SecurityConfig {
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());
                     http.requestMatchers(HttpMethod.PATCH, Path.NOTE_ID_TAGS_ID).hasAnyRole(
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.GET, Path.NOTE_SEARCH).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
 
                     http.requestMatchers(HttpMethod.GET, Path.TAG).hasAnyRole(
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());

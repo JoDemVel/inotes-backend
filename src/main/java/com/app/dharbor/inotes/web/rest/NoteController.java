@@ -55,15 +55,21 @@ public class NoteController {
     public ResponseEntity<NoteWithTagsDTO> saveTagsOnNote(
             @PathVariable Long id,
             @RequestBody @Valid NoteTagsRequest tags) {
-        NoteWithTagsDTO updatedNote = noteService.saveTagsOnNote(id, tags.tags());
-        return ResponseEntity.ok(updatedNote);
+        return new ResponseEntity<>(noteService.saveTagsOnNote(id, tags.tags()), HttpStatus.OK);
     }
 
     @PatchMapping(Path.NOTE_ID_TAGS_ID)
     public ResponseEntity<NoteWithTagsDTO> saveTagOnNote(
             @PathVariable Long id,
             @PathVariable Long tagId) {
-        NoteWithTagsDTO updatedNote = noteService.saveTagOnNote(id, tagId);
-        return ResponseEntity.ok(updatedNote);
+        return new ResponseEntity<>(noteService.saveTagOnNote(id, tagId), HttpStatus.OK);
+    }
+
+    @GetMapping(Path.NOTE_SEARCH)
+    public ResponseEntity<List<NoteDTO>> searchNotes(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = false) String tagName) {
+        return new ResponseEntity<>(noteService.searchNotes(title, content, tagName), HttpStatus.OK);
     }
 }
