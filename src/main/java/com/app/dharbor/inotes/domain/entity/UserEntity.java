@@ -25,7 +25,8 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
 
-    private String password_hash;
+    @Column(name = "password_hash")
+    private String passwordHash;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -50,4 +51,9 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
