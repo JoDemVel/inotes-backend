@@ -54,6 +54,8 @@ public class SecurityConfig {
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());
                     http.requestMatchers(HttpMethod.DELETE, Path.NOTE_ID).hasAnyRole(
                             RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.PATCH, Path.NOTE_ID).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
 
                     http.anyRequest().denyAll();
                 })

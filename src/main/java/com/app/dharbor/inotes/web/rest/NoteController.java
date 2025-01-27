@@ -45,7 +45,7 @@ public class NoteController {
     }
 
     @PatchMapping(Path.NOTE_ID)
-    public ResponseEntity<NoteDTO> archiveNote(@PathVariable Long id){
+    public ResponseEntity<NoteDTO> toggleArchiveNote(@PathVariable Long id){
         return new ResponseEntity<>(this.noteService.archiveNote(id), HttpStatus.OK);
     }
 }

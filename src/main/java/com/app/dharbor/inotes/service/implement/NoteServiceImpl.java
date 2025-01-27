@@ -74,7 +74,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteDTO archiveNote(Long noteID) {
         NoteEntity note = findNoteById(noteID);
-        note.setArchived(true);
+        note.setArchived(!note.isArchived());
         return noteMapper.toDTO(noteRepository.save(note));
     }
 
