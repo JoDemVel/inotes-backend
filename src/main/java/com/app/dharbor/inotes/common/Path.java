@@ -16,6 +16,7 @@ public final class Path {
     public static final String NOTE_ONLY = "/notes";
     public static final String NOTE = BASE + NOTE_ONLY;
     public static final String NOTE_ID = NOTE + "/{id}";
+    public static final String NOTE_SEARCH = NOTE + "/search";
 
     public static final String TAG_ONLY = "/tags";
     public static final String TAG = BASE + TAG_ONLY;

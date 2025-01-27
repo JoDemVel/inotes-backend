@@ -15,4 +15,5 @@ public interface NoteService {
     NoteDTO archiveNote(Long noteID);
     NoteWithTagsDTO saveTagsOnNote(Long noteID, List<Long> tagsIDs);
     NoteWithTagsDTO saveTagOnNote(Long noteID, Long tagID);
+    List<NoteDTO> searchNotes(String title, String content, String tagName);
 }

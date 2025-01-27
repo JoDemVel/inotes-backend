@@ -7,11 +7,13 @@ import com.app.dharbor.inotes.dto.NoteDTO;
 import com.app.dharbor.inotes.dto.NoteWithTagsDTO;
 import com.app.dharbor.inotes.repository.data.NoteRepository;
 import com.app.dharbor.inotes.repository.data.TagRepository;
+import com.app.dharbor.inotes.repository.jpa.specifications.NoteSpecifications;
 import com.app.dharbor.inotes.service.NoteService;
 import com.app.dharbor.inotes.service.mapper.NoteMapper;
 import com.app.dharbor.inotes.service.mapper.NoteWithTagsMapper;
 import com.app.dharbor.inotes.utils.UserInfo;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -120,6 +122,17 @@ public class NoteServiceImpl implements NoteService {
         NoteEntity updatedNote = noteRepository.save(note);
 
         return noteWithTagsMapper.toDTO(updatedNote);
+    }
+
+    @Override
+    public List<NoteDTO> searchNotes(String title, String content, String tagName) {
+        Long userId = userInfo.getAuthenticatedUser().getId();
+        Specification<NoteEntity> spec = Specification.where(NoteSpecifications.belongsToUser(userId))
+                .and(NoteSpecifications.hasTitle(title))
+                .and(NoteSpecifications.hasContent(content))
+                .and(NoteSpecifications.hasTagName(tagName));
+
+        return noteRepository.findAll(spec).stream().map(noteMapper::toDTO).toList();
     }
 
     private NoteEntity findNoteById(Long noteID) {

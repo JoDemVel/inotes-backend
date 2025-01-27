@@ -10,6 +10,14 @@ Backend to manage notes of INotes App
 
 ``server.port=8080``
 
+## Architecture
+**Modular Monolith**
+
+## Run Project
+``docker-compose up -d``
+
+``mvn spring-boot:run``
+
 ## EndPoints
 
 ### Auth
@@ -89,6 +97,45 @@ Backend to manage notes of INotes App
 
 *No Request Body*
 
+**(PATCH) Add Tag on Notes**
+
+``http://localhost:8080/v1/notes/{id}/tags/{tagId}``
+
+*No Request Body*
+
+**(PATCH) Add Tags on Notes**
+
+``http://localhost:8080/v1/notes/{id}/tags``
+
+*Request Body (JSON)*
+```
+{
+    "tags": [1]
+}
+```
+### TAGS
+
+**(POST) Create**
+
+``http://localhost:8080/v1/tags``
+
+*Request Body (JSON)*
+```
+{
+    "name": "Data Structures"
+}
+```
+**(DELETE) Delete**
+
+``http://localhost:8080/v1/tags/2``
+
+*No Request Body*
+
+**(GET) Search**
+
+``http://localhost:8080/v1/notes/search?tile=&content=tagName=``
+
+*No Request Body*
 
 _____________________________
 ### Response Format
@@ -111,6 +158,27 @@ _____________________________
     "userId": 1,
     "archived": false
 }
+```
+**Note With Tags**
+```
+{
+    "id": 30,
+    "userId": 1,
+    "title": "note Exampl asdasdasdasde",
+    "content": "Finish this project",
+    "tagNames": [
+        "Algorithm"
+    ],
+    "archived": false
+}
+```
+**Tag**
+```
+{
+        "id": 1,
+        "name": "Algorithm",
+        "userId": 1
+    }
 ```
 **Error**
 ```
