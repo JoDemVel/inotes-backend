@@ -2,16 +2,19 @@ package com.app.dharbor.inotes.dto;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class NoteDTO {
+public class NoteWithTagsDTO {
     private Long id;
+    private Long userId;
     private String title;
     private String content;
-    private Long userId;
     private boolean isArchived;
+    private Set<String> tagNames;
 }
