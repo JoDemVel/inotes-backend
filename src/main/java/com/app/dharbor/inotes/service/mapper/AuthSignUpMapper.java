@@ -18,7 +18,7 @@ public class AuthSignUpMapper implements CustomMapper<AuthSignUpRequest, UserEnt
         return new AuthSignUpRequest(
                 userEntity.getUsername(),
                 userEntity.getEmail(),
-                userEntity.getPassword_hash(),
+                userEntity.getPasswordHash(),
                 roles
         );
     }
@@ -28,7 +28,7 @@ public class AuthSignUpMapper implements CustomMapper<AuthSignUpRequest, UserEnt
         return new UserEntity().builder()
                 .username(authSignUpRequest.getUsername())
                 .email(authSignUpRequest.getEmail())
-                .password_hash(authSignUpRequest.getPassword())
+                .passwordHash(authSignUpRequest.getPassword())
                 .roles(null)
                 .enabled(true)
                 .accountNonLocked(true)

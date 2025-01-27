@@ -27,7 +27,7 @@ public class JwtUtils {
     public String createToken(Authentication authentication) {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
 
-        String username = authentication.getPrincipal().toString();
+        String username = authentication.getName();
         String authorities = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)

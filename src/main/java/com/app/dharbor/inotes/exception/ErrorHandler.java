@@ -44,4 +44,12 @@ public class ErrorHandler {
         response.put("status", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "An unexpected error occurred: " + ex.getMessage());
+        response.put("status", String.valueOf(HttpStatus.CONFLICT.value()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 }

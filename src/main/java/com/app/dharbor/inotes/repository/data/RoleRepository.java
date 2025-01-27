@@ -1,7 +1,6 @@
 package com.app.dharbor.inotes.repository.data;
 
 import com.app.dharbor.inotes.domain.entity.RoleEntity;
-import com.app.dharbor.inotes.domain.entity.RoleEnum;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

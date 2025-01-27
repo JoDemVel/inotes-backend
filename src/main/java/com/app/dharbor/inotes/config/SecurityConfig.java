@@ -1,6 +1,8 @@
 package com.app.dharbor.inotes.config;
 
+import com.app.dharbor.inotes.common.Path;
 import com.app.dharbor.inotes.config.filter.JwtTokenValidator;
+import com.app.dharbor.inotes.domain.entity.RoleEnum;
 import com.app.dharbor.inotes.security.CustomAccessDeniedHandler;
 import com.app.dharbor.inotes.security.CustomAuthenticationEntryPoint;
 import com.app.dharbor.inotes.service.implement.UserDetailsServiceImpl;
@@ -40,7 +42,19 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
-                    http.requestMatchers(HttpMethod.POST, "/v1/auth/**").permitAll();
+                    http.requestMatchers(HttpMethod.POST, Path.AUTH_ALL).permitAll();
+
+                    http.requestMatchers(HttpMethod.GET, Path.NOTE_ID).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.GET, Path.NOTE).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.POST, Path.NOTE).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.PUT, Path.NOTE_ID).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+                    http.requestMatchers(HttpMethod.DELETE, Path.NOTE_ID).hasAnyRole(
+                            RoleEnum.ADMIN.name(), RoleEnum.USER.name());
+
                     http.anyRequest().denyAll();
                 })
                 .exceptionHandling(exception -> {
